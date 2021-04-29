@@ -37,5 +37,5 @@ perform = tk.Button(
 
 add.grid(row=0, column=0, pady=2)
 display.grid(row=1, column=0, pady=2)
-perform.grid(row=2, column=0, pady=2 )
+perform.grid(row=2, column=0, pady=2)
 window.mainloop()
