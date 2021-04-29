@@ -4,18 +4,18 @@ window = tk.Tk() # Window is the main tkinter
 window.title("Enrol Rental System")
 
 def openAddWindow():
-    newwin = Toplevel(window)
-    display = Label(newwin, text="A new window !")
+    newwin = tk.Toplevel(window)
+    display = tk.Label(newwin, text="A new window !")
     display.pack()    
 
 def openDisplayWindow():
-    newwin = Toplevel(window)
-    display = Label(newwin, text="A new window !")
+    newwin = tk.Toplevel(window)
+    display = tk.Label(newwin, text="A new window !")
     display.pack()  
 
 def openPerformWindow():
-    newwin = Toplevel(window)
-    display = Label(newwin, text="A new window !")
+    newwin = tk.Toplevel(window)
+    display = tk.Label(newwin, text="A new window !")
     display.pack()  
 
 # Buttons
@@ -35,7 +35,7 @@ perform = tk.Button(
     command=openPerformWindow
 )
 
-add.grid(row = 0, column = 0, pady = 2)
-display.grid(row = 1, column = 0, pady = 2)
-perform.grid(row = 2, column=0, pady = 2 )
+add.grid(row=0, column=0, pady=2)
+display.grid(row=1, column=0, pady=2)
+perform.grid(row=2, column=0, pady=2 )
 window.mainloop()
