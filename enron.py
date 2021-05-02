@@ -48,17 +48,55 @@ def openPerformWindow():
             mydb = mysql.connector.connect(
                 host="localhost",
                 user="root",
+                database="project2",
                 password="Qwerty12345!" # A fake password :|>
             )
             cursor = mydb.cursor()
-            cursor.execute("SELECT CUSTOMER.Name, SUM(RENTAL.TotalAmount) as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name = %s AND RENTAL.VechicleID = %s  AND RENTAL.PaymentDate is NULL;", name_provided,id_provided) 
+            sql = "SELECT CUSTOMER.Name, SUM(RENTAL.TotalAmount), CUSTOMER.CustID as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+ name_provided+"'AND RENTAL.VechicleID ='"+id_provided+"'AND RENTAL.PaymentDate is NULL;"
+            cursor.execute(sql) 
             results = cursor.fetchall()
             if len(results) == 0: # To check if the results are returned or not 
                 MessageBox.showerror(title="No records found",message="Try again")
-            cursor.close()
-            print(name_provided)
-            print(id_provided)
-            print(results)
+            else:
+                cursor.close() # Closes the connection 
+                print(name_provided)
+                print(id_provided)
+                print(results)
+                user_name_obtained = results[0][0]
+                amount_due = results[0][1]
+                cust_id = results[0][2]
+                payment_window = tk.Toplevel(window)
+                payment_window.geometry("500x300")
+                display = tk.Label(payment_window, text="$ "+amount_due+" Due")
+                amount_due_text_shown = tk.Label(payment_window, text="$ "+amount_due+" Due")
+                
+                def destroy_all_views():
+                    payment_window.destroy()
+                
+                def complete_payment_for_user():
+                    mydb = mysql.connector.connect(
+                        host="localhost",
+                        user="root",
+                        database="project2",
+                        password="Qwerty12345!" # A fake password :|>
+                    )
+                    cursor = mydb.cursor()
+                    d4 = today.strftime("%Y-%m-%d") # Converting to format required 
+                    print("d4 =", d4)
+                    sql = "UPDATE RENTAL SET RENTAL.PaymentDate ='"+d4+"' WHERE RENTAL.VechicleID ='"+id_provided+"' AND RENTAl.CustID ='"+cust_id+"';"
+                    print(sql) # To verify is complete or not 
+                    cursor.execute(sql) 
+                    cursor.close()
+                    payment_window.destroy()
+                pay_amount_button = tk.Button(payment_window, 
+                                            text="Pay due amount",
+                                            width=20,
+                                            command = complete_payment_for_user)
+                cancel_button = tk.Button(payment_window, 
+                                            text="Cancel Button",
+                                            width=20,
+                                            command = destroy_all_views)
+                display.pack()    
         
         # UI elements
         generic_ui_1 = tk.Label(return_a_car, text="Enter your name and VIN of the car")
