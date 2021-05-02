@@ -1,6 +1,7 @@
 # Branch added 
 import tkinter as tk
 import mysql.connector 
+import tkinter.messagebox as MessageBox
 
 window = tk.Tk() # Window is the main tkinter 
 window.title("Enrol Rental System")
@@ -24,7 +25,6 @@ def openDisplayWindow():
     display.pack()  
 
 def openPerformWindow():
-    name_of_customer = ""
     newwin = tk.Toplevel(window)
     newwin.geometry("500x300") # Sets the size of window to 500 by 300 
     
@@ -36,20 +36,47 @@ def openPerformWindow():
     
     # Opens return a car window 
     def returnACar():
+        customername = tk.StringVar() # Basically Null value
+        vehicle_number = tk.StringVar()
         return_a_car = tk.Toplevel(window)
         return_a_car.geometry("500x300")
+        
+        def processReturnACar():
+            name_provided = customername.get()
+            id_provided = vehicle_number.get()
+            # Connecting database again here 
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="Qwerty12345!" # A fake password :|>
+            )
+            cursor = mydb.cursor()
+            cursor.execute("SELECT CUSTOMER.Name, SUM(RENTAL.TotalAmount) as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name = %s AND RENTAL.VechicleID = %s  AND RENTAL.PaymentDate is NULL;", name_provided,id_provided) 
+            results = cursor.fetchall()
+            if results == None: # To check if the results are returned or not 
+                MessageBox.showerror(title="No records found",message="Try again")
+            print(name_provided)
+            print(id_provided)
+        
         # UI elements
+        generic_ui_1 = tk.Label(return_a_car, text="Enter your name and VIN of the car")
         name_customer = tk.Label(return_a_car, text="Name :")
         vehicle_id = tk.Label(return_a_car, text="Vehicle Id:")
-        name_of_customer = tk.Entry(return_a_car,text="Name")
-        vehicle_id_customer = tk.Entry(return_a_car,text="Vehicle")
+        name_of_customer = tk.Entry(return_a_car,textvariable = customername)
+        vehicle_id_customer = tk.Entry(return_a_car,textvariable = vehicle_number)
+        sumbit_info_button = tk.Button(return_a_car,
+            text="Sumbit",
+            width=20,
+            command = processReturnACar
+        )
         
         # Grid options
-        name_customer.grid(row=0, column=0)
-        vehicle_id.grid(row=1, column=0)
-        name_of_customer.grid(row=0, column=1)
-        vehicle_id_customer.grid(row=1, column=1)
-        
+        generic_ui_1.grid(row=0, column=0)
+        name_customer.grid(row=1, column=0)
+        vehicle_id.grid(row=2, column=0)
+        name_of_customer.grid(row=1, column=1)
+        vehicle_id_customer.grid(row=2, column=1)
+        sumbit_info_button.grid(row=4, column=0)
     
     rent_a_car_button = tk.Button(newwin,
     text="Rent a car",
