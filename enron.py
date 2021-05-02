@@ -53,10 +53,12 @@ def openPerformWindow():
             cursor = mydb.cursor()
             cursor.execute("SELECT CUSTOMER.Name, SUM(RENTAL.TotalAmount) as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name = %s AND RENTAL.VechicleID = %s  AND RENTAL.PaymentDate is NULL;", name_provided,id_provided) 
             results = cursor.fetchall()
-            if results == None: # To check if the results are returned or not 
+            if len(results) == 0: # To check if the results are returned or not 
                 MessageBox.showerror(title="No records found",message="Try again")
+            cursor.close()
             print(name_provided)
             print(id_provided)
+            print(results)
         
         # UI elements
         generic_ui_1 = tk.Label(return_a_car, text="Enter your name and VIN of the car")
