@@ -1,7 +1,7 @@
-# Branch added 
 import tkinter as tk
 import mysql.connector 
 import tkinter.messagebox as MessageBox
+from datetime import date
 
 window = tk.Tk() # Window is the main tkinter 
 window.title("Enrol Rental System")
@@ -42,6 +42,7 @@ def openPerformWindow():
         return_a_car.geometry("500x300")
         
         def processReturnACar():
+            show_pay_button = True
             name_provided = customername.get()
             id_provided = vehicle_number.get()
             # Connecting database again here 
@@ -52,7 +53,7 @@ def openPerformWindow():
                 password="Qwerty12345!" # A fake password :|>
             )
             cursor = mydb.cursor()
-            sql = "SELECT CUSTOMER.Name, SUM(RENTAL.TotalAmount), CUSTOMER.CustID as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+ name_provided+"'AND RENTAL.VechicleID ='"+id_provided+"'AND RENTAL.PaymentDate is NULL;"
+            sql = "SELECT CUSTOMER.Name, SUM(RENTAL.TotalAmount) as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+ name_provided+"'AND RENTAL.VechicleID ='"+id_provided+"'AND RENTAL.PaymentDate is NULL;"
             cursor.execute(sql) 
             results = cursor.fetchall()
             if len(results) == 0: # To check if the results are returned or not 
@@ -62,13 +63,16 @@ def openPerformWindow():
                 print(name_provided)
                 print(id_provided)
                 print(results)
-                user_name_obtained = results[0][0]
+                user_name_obtained = results[0][0] 
                 amount_due = results[0][1]
-                cust_id = results[0][2]
                 payment_window = tk.Toplevel(window)
                 payment_window.geometry("500x300")
-                display = tk.Label(payment_window, text="$ "+amount_due+" Due")
-                amount_due_text_shown = tk.Label(payment_window, text="$ "+amount_due+" Due")
+                amount_due_text_shown = tk.Label(payment_window, text="No payment due")
+                if amount_due is None:
+                    amount_due_text_shown = tk.Label(payment_window, text="No payments due !")
+                    show_pay_button = False
+                else:
+                    amount_due_text_shown = tk.Label(payment_window, text="$ "+str(amount_due)+" Due")
                 
                 def destroy_all_views():
                     payment_window.destroy()
@@ -81,9 +85,16 @@ def openPerformWindow():
                         password="Qwerty12345!" # A fake password :|>
                     )
                     cursor = mydb.cursor()
+                    # To get customer id 
+                    sql_cust_id = "SELECT CUSTOMER.CustID FROM CUSTOMER WHERE CUSTOMER.Name ='"+ name_provided+"';"
+                    cursor.execute(sql_cust_id) 
+                    sql_cust_id_results = cursor.fetchall()
+                    cust_id_found = sql_cust_id_results[0][0]
+                    print("The customer ID found is "+str(cust_id_found))
+                    today = date.today()
                     d4 = today.strftime("%Y-%m-%d") # Converting to format required 
                     print("d4 =", d4)
-                    sql = "UPDATE RENTAL SET RENTAL.PaymentDate ='"+d4+"' WHERE RENTAL.VechicleID ='"+id_provided+"' AND RENTAl.CustID ='"+cust_id+"';"
+                    sql = "UPDATE RENTAL SET RENTAL.PaymentDate ='"+d4+"' WHERE RENTAL.VechicleID ='"+id_provided+"' AND RENTAl.CustID ='"+str(cust_id_found)+"';"
                     print(sql) # To verify is complete or not 
                     cursor.execute(sql) 
                     cursor.close()
@@ -96,7 +107,10 @@ def openPerformWindow():
                                             text="Cancel Button",
                                             width=20,
                                             command = destroy_all_views)
-                display.pack()    
+                amount_due_text_shown.grid(row=0,column=1)
+                if(show_pay_button):
+                    pay_amount_button.grid(row=1,column=0)
+                cancel_button.grid(row=2,column=0)
         
         # UI elements
         generic_ui_1 = tk.Label(return_a_car, text="Enter your name and VIN of the car")
