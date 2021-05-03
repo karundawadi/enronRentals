@@ -83,6 +83,7 @@ def insertVehicle():
 
 def openCustomer():
     newwin = tk.Toplevel(window)
+    newwin.geometry("500x300")
     name = tk.Label(newwin, text='Enter Name:')
     name.place(x=20, y=30)
     phone = tk.Label(newwin, text='Enter Phone Number:')
@@ -96,11 +97,12 @@ def openCustomer():
     e_phone.place(x=150, y=60)
 
     insert = tk.Button(newwin, text="Insert", command=insertCustomer)
-    insert.place(x=20, y=140)
+    insert.place(x=20, y=100)
 
 
 def openVehicle():
     newwin = tk.Toplevel(window)
+    newwin.geometry("500x300")
     v_id = tk.Label(newwin, text='Enter Vehicle ID:')
     v_id.place(x=20, y=30)
     v_desc = tk.Label(newwin, text='Enter Vehicle Description:')
@@ -119,15 +121,15 @@ def openVehicle():
     global vehicle_cat
 
     vehicle_id = tk.Entry(newwin)
-    vehicle_id.place(x=150, y=30)
+    vehicle_id.place(x=180, y=30)
     vehicle_desc = tk.Entry(newwin)
-    vehicle_desc.place(x=150, y=60)
+    vehicle_desc.place(x=180, y=60)
     vehicle_year = tk.Entry(newwin)
-    vehicle_year.place(x=150, y=90)
+    vehicle_year.place(x=180, y=90)
     vehicle_type = tk.Entry(newwin)
-    vehicle_type.place(x=150, y=120)
+    vehicle_type.place(x=180, y=120)
     vehicle_cat = tk.Entry(newwin)
-    vehicle_cat.place(x=150, y=150)
+    vehicle_cat.place(x=180, y=150)
 
     insert = tk.Button(newwin, text="Insert", command=insertVehicle)
     insert.place(x=20, y=180)
@@ -138,7 +140,7 @@ def openAddWindow():
     customer = tk.Button(
         newwin,
         text="Add Customer",
-        width = 20,
+        width=20,
         command=openCustomer
     )
     vehicle = tk.Button(
