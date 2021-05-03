@@ -178,7 +178,17 @@ def openPerformWindow():
         return_date_field_second = tk.Entry(retrive_a_car_window, textvariable = return_date_rental)
         
         def findRental():
-            print("Hello") 
+            # connecting to db
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password=password_database # A fake password :|>
+            )
+            cursor = mydb.cursor()
+            sql = "SELECT CustID, VehicleID, StartDate, RentalType, Return as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+ name_provided+"'AND RENTAL.VechicleID ='"+id_provided+"'AND RENTAL.PaymentDate is NULL;"
+            cursor.execute(sql) 
+            results = cursor.fetchall()
+            
         
         sumbit_info_button = tk.Button(retrive_a_car_window,
             text="Sumbit",
@@ -349,7 +359,6 @@ display = tk.Button(
 perform = tk.Button(
     text="Perform",
     width=20,
-    bg = 'blue',
     command=openPerformWindow
 )
 
