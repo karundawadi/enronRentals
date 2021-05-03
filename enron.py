@@ -30,7 +30,7 @@ def get_data():
         answer = c.fetchall()
         data = ''
         for a in answer:
-            data += "\n" + str(a[0]) + "\t" + str(a[1]) + "\t" + str(a[2]) + "\t" + str(a[3]) + "\t" + str(a[4]) + "\t" + str(a[5]) + "\t" + str(a[6]) + "\t" + str(a[7]) + "\t" + str(a[8]) + "\t" + str(a[9]) + "\t" + str(a[10]) + "\t" + ('$' + str("%.2f" % a[11])) 
+            data += "\n" + " ".join(str(a[0]).split()) + "\t" + " ".join(str(a[1]).split()) + "\t" + " ".join(str(a[2]).split()) + "\t" + " ".join(str(a[3]).split()) + "\t" + " ".join(str(a[4]).split()) + "\t" + " ".join(str(a[5]).split()) + "\t" + " ".join(str(a[6]).split()) + "\t" + " ".join(str(a[7]).split()) + "\t" + " ".join(str(a[8]).split()) + "\t" + " ".join(str(a[9]).split()) + "\t" + " ".join(str(a[10]).split()) + "\t" + ('$' + str("%.2f" % a[11])) 
         newwin.geometry("1000x1000")
         layout_t = "\n"+"OrderDate"+"\t"+"StartDate"+"\t" +"Return Date"+"\t"+"TotalDays"+"\t"+"VIN"+"\t"+"Vehicle"+"\t"+"Type"+"\t"+"Category"+"\t"+"CustomerID"+"\t"+"CustomerName"+"\t"+"OrderAmount"+"\t"+"RentalBalance"+"\n"
         # prints query output
