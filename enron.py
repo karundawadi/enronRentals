@@ -211,6 +211,7 @@ def openPerformWindow():
                 command = destroyRetrive
             )
             cancel_button_retrieve.grid(row=1,column=0)
+            cursor.close()
         
         sumbit_info_button = tk.Button(retrive_a_car_window,
             text="Sumbit",
