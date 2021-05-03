@@ -29,7 +29,7 @@ def get_data():
 
 
     elif len(cust_id.get())!= 0 and len(cust_name.get())== 0:
-        c.execute("SELECT DISTINCT CusomterID,CustomerName,CAST(BalanceDue AS DECIMAL(10,2)) FROM vRentalInfo WHERE CusomterID ='"+ (cust_id.get())+"';")
+        c.execute("SELECT DISTINCT CusomterID,CustomerName,CONCAT('$',CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CusomterID ='"+ (cust_id.get())+"';")
         answer = c.fetchall()
         print(answer)
         data = ''
@@ -44,7 +44,7 @@ def get_data():
 
 
     elif len(cust_id.get())== 0 and len(cust_name.get())!= 0:
-        c.execute("SELECT DISTINCT CusomterID, CustomerName, CAST(BalanceDue AS DECIMAL(10,2))  FROM vRentalInfo WHERE CustomerName ='"+ (cust_name.get())+"';")
+        c.execute("SELECT DISTINCT CusomterID, CustomerName,CONCAT('$', CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CustomerName ='"+ (cust_name.get())+"';")
         answer = c.fetchall()
         print(answer)
         data = ''
@@ -58,7 +58,7 @@ def get_data():
         con.close()
 
     elif len(cust_id.get())!= 0 and len(cust_name.get())!= 0:
-        c.execute("SELECT DISTINCT CusomterID, CustomerName,CAST(BalanceDue AS DECIMAL(10,2)) FROM vRentalInfo WHERE CustomerName ='" + (
+        c.execute("SELECT DISTINCT CusomterID, CustomerName,CONACT('$',CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CustomerName ='" + (
             cust_name.get()) + "'AND CusomterID ='"+(cust_id.get())+"';")
         answer = c.fetchall()
         print(answer)
