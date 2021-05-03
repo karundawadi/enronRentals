@@ -11,6 +11,7 @@ def get_data():
     con = mysql.connector.connect(host="localhost", user="root", password="Birgha@1", database="Part_ten")
     c = con.cursor()
 
+    # user does not provide any input
     if len(cust_id.get())==0 and len(cust_name.get())==0:
         c.execute('SELECT * FROM vRentalInfo ORDER BY vRentalInfo.BalanceDue')
         answer = c.fetchall()
@@ -19,7 +20,7 @@ def get_data():
         for a in answer:
             data +="\n"+str(a[0])+"\t"+str(a[1])+"\t" +str(a[2])+"\t"+str(a[3])+"\t"+str(a[4])+\
                     "\t"+str(a[5])+"\t"+str(a[6])+"\t"+str(a[7])+"\t"+str(a[8])+"\t"\
-                    +str(a[9])+"\t"+str(a[10])+"\t"+str(a[11])+"\n"
+                    +str(a[9])+"\t"+str(a[10])+"\t"+('$'+str("%.2f" % a[11]))+"\n"
 
         query_answer = tk.Label(newwin, text=data)
         query_answer.grid(row=0, column=0, columnspan=2)
@@ -27,7 +28,7 @@ def get_data():
         con.commit()
         con.close()
 
-
+    # user only provides ID
     elif len(cust_id.get())!= 0 and len(cust_name.get())== 0:
         c.execute("SELECT DISTINCT CusomterID,CustomerName,CONCAT('$',CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CusomterID ='"+ (cust_id.get())+"';")
         answer = c.fetchall()
@@ -42,9 +43,11 @@ def get_data():
         con.commit()
         con.close()
 
-
+    # user provides full or parital name
     elif len(cust_id.get())== 0 and len(cust_name.get())!= 0:
-        c.execute("SELECT DISTINCT CusomterID, CustomerName,CONCAT('$', CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CustomerName ='"+ (cust_name.get())+"';")
+        c.execute(
+            "SELECT DISTINCT CusomterID, CustomerName, CONCAT('$', CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CustomerName LIKE '" +
+            ('%' + cust_name.get() + '%') + "';")
         answer = c.fetchall()
         print(answer)
         data = ''
@@ -57,9 +60,18 @@ def get_data():
         con.commit()
         con.close()
 
+    # user gives both id and full name
     elif len(cust_id.get())!= 0 and len(cust_name.get())!= 0:
-        c.execute("SELECT DISTINCT CusomterID, CustomerName,CONACT('$',CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CustomerName ='" + (
-            cust_name.get()) + "'AND CusomterID ='"+(cust_id.get())+"';")
+
+        c.execute(
+            "SELECT DISTINCT CusomterID, CustomerName,CONCAT('$',CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CustomerName ='" + (
+                cust_name.get()) + "'AND CusomterID ='" + (cust_id.get()) + "';")
+
+        # user give both id and partial name
+        # c.execute(
+        #     "SELECT DISTINCT CusomterID, CustomerName,CONCAT('$',CAST(BalanceDue AS DECIMAL(10,2))) FROM vRentalInfo WHERE CustomerName LIKE '" +
+        #     ('%' + cust_name.get() + '%') + "'AND CusomterID ='" + (cust_id.get()) + "';")
+
         answer = c.fetchall()
         print(answer)
         data = ''
@@ -71,11 +83,6 @@ def get_data():
 
         con.commit()
         con.close()
-
-
-
-
-
 
 
 
