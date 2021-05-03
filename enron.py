@@ -163,10 +163,46 @@ def openPerformWindow():
     
     # Opens rent a car window 
     def retriveARental():
-        rent_a_car_window = tk.Toplevel(window)
-        display = tk.Label(rent_a_car_window, text="Rent a car")
-        display.pack()    
-    
+        customername = tk.StringVar() # Basically Null value
+        vehicle_number = tk.StringVar()
+        return_date_rental = tk.StringVar()
+        # View elements 
+        retrive_a_car_window = tk.Toplevel(window)
+        retrive_a_car_window.geometry("500x300")
+        name_customer = tk.Label(retrive_a_car_window, text="Name :")
+        vehicle_id = tk.Label(retrive_a_car_window, text="Vehicle Id:")
+        return_date_field = tk.Label(retrive_a_car_window,text="Enter Return Date:")
+        
+        name_of_customer = tk.Entry(retrive_a_car_window,textvariable = customername)
+        vehicle_id_customer = tk.Entry(retrive_a_car_window,textvariable = vehicle_number)
+        return_date_field_second = tk.Entry(retrive_a_car_window, textvariable = return_date_rental)
+        
+        def findRental():
+            print("Hello") 
+        
+        sumbit_info_button = tk.Button(retrive_a_car_window,
+            text="Sumbit",
+            width=20,
+            command = findRental
+        )
+        
+        def destroyRetrive():
+            retrive_a_car_window.destroy() # Destroys the view 
+        cancel_button_retrieve = tk.Button(retrive_a_car_window,
+            text="Cancel",
+            width=20,
+            command = destroyRetrive
+        )
+        
+        name_customer.grid(row=0,column=0)
+        name_of_customer.grid(row=0,column=1)
+        vehicle_id.grid(row=1,column=0)
+        vehicle_id_customer.grid(row=1,column=1)
+        return_date_field.grid(row=2,column=0)
+        return_date_field_second.grid(row=2,column=1)
+        sumbit_info_button.grid(row=3,column=0)
+        cancel_button_retrieve.grid(row=4,column=0)
+        
     # Opens return a car window 
     def returnACar():
         customername = tk.StringVar() # Basically Null value
