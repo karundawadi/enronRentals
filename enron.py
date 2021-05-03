@@ -180,7 +180,7 @@ def openPerformWindow():
         
         def findRental():
             retrive_a_car_window_find_rental = tk.Toplevel(window)
-            retrive_a_car_window_find_rental.geometry("500x300")
+            retrive_a_car_window_find_rental.geometry("500x500")
             # connecting to db
             mydb = mysql.connector.connect(
                 host="localhost",
