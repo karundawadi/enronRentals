@@ -8,12 +8,13 @@ import re
 window = tk.Tk() # Window is the main tkinter 
 window.title("Enrol Rental System")
 window.geometry("500x300") # Setting the size of the application window 
+password_database = "Qwerty12345!" #change this to database password 
 
 # connecting to db
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="Qwerty12345!" # A fake password :|>
+    password=password_database # A fake password :|>
 )
 
 def insertCustomer():
@@ -37,7 +38,7 @@ def insertCustomer():
 
         phone = tempPhone
 
-        con = mysql.connector.connect(host="localhost", user="root", password="Qwerty12345!", database="project2")
+        con = mysql.connector.connect(host="localhost", user="root", password=password_database, database="project2")
         cursor = con.cursor()
         cursor.execute("SELECT MAX(custID) FROM Customer")
         num = cursor.fetchall()
@@ -69,7 +70,7 @@ def insertVehicle():
     elif v_id == "" or v_desc == "" or v_year == "" or v_type == "" or v_cat == "":
         MessageBox.showinfo("Insert", "Needs all fields.")
     else:
-        con = mysql.connector.connect(host="localhost", user="root", password="Qwerty12345!", database="project2")
+        con = mysql.connector.connect(host="localhost", user="root", password=password_database, database="project2")
         cursor = con.cursor()
         try:
             cursor.execute("INSERT INTO Vehicle VALUES('" + v_id + "','" + v_desc + "','" + v_year + "','" + v_type + "','" + v_cat +"')")
@@ -180,7 +181,7 @@ def openPerformWindow():
                 host="localhost",
                 user="root",
                 database="project2",
-                password="Qwerty12345!" # A fake password :|>
+                password=password_database # A fake password :|>
             )
             cursor = mydb.cursor()
             sql = "SELECT CUSTOMER.Name, SUM(RENTAL.TotalAmount) as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+ name_provided+"'AND RENTAL.VechicleID ='"+id_provided+"'AND RENTAL.PaymentDate is NULL;"
@@ -212,7 +213,7 @@ def openPerformWindow():
                         host="localhost",
                         user="root",
                         database="project2",
-                        password="Qwerty12345!" # A fake password :|>
+                        password=password_database # A fake password :|>
                     )
                     cursor = mydb.cursor()
                     # To get customer id 
