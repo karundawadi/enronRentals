@@ -123,7 +123,7 @@ def openPerformWindow():
             width=20,
             command = processReturnACar
         )
-        def end_return_a_car_view:
+        def end_return_a_car_view():
             return_a_car.destroy() # Destroys the view 
             
         cancel_info_button = tk.Button(return_a_car,
@@ -141,6 +141,15 @@ def openPerformWindow():
         sumbit_info_button.grid(row=4, column=0)
         cancel_info_button.grid(row=5,column=0)
     
+    def destroy_perform_window():
+        newwin.destroy()
+    
+    cancel_button = tk.Button(newwin,
+    text="Cancel",
+    width=20,
+    command= destroy_perform_window
+    )
+    
     rent_a_car_button = tk.Button(newwin,
     text="Rent a car",
     width=20,
@@ -155,7 +164,8 @@ def openPerformWindow():
     
     rent_a_car_button.grid(row=0, column=0, columnspan =2, padx=180 , pady = 25)
     return_a_car_button.grid(row=1, column=0, columnspan =2, padx=180 , pady = 25)
-
+    cancel_button.grid(row=2, column=0, columnspan =2, padx=180 , pady = 25)
+    
 # Buttons
 add = tk.Button(
     text="Add",
