@@ -29,7 +29,7 @@ def openPerformWindow():
     newwin.geometry("500x300") # Sets the size of window to 500 by 300 
     
     # Opens rent a car window 
-    def rentACar():
+    def retriveARental():
         rent_a_car_window = tk.Toplevel(window)
         display = tk.Label(rent_a_car_window, text="Rent a car")
         display.pack()    
@@ -150,10 +150,10 @@ def openPerformWindow():
     command= destroy_perform_window
     )
     
-    rent_a_car_button = tk.Button(newwin,
-    text="Rent a car",
+    retrive_a_rental_button = tk.Button(newwin,
+    text="Retrieve a rental",
     width=20,
-    command= rentACar
+    command= retriveARental
     )
     
     return_a_car_button = tk.Button(newwin,
@@ -162,7 +162,7 @@ def openPerformWindow():
     command= returnACar
     )
     
-    rent_a_car_button.grid(row=0, column=0, columnspan =2, padx=180 , pady = 25)
+    retrive_a_rental_button.grid(row=0, column=0, columnspan =2, padx=180 , pady = 25)
     return_a_car_button.grid(row=1, column=0, columnspan =2, padx=180 , pady = 25)
     cancel_button.grid(row=2, column=0, columnspan =2, padx=180 , pady = 25)
     
