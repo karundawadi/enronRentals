@@ -179,6 +179,8 @@ def openPerformWindow():
         return_date_field_second = tk.Entry(retrive_a_car_window, textvariable = return_date_rental)
         
         def findRental():
+            retrive_a_car_window_find_rental = tk.Toplevel(window)
+            retrive_a_car_window_find_rental.geometry("500x300")
             # connecting to db
             mydb = mysql.connector.connect(
                 host="localhost",
@@ -186,15 +188,29 @@ def openPerformWindow():
                 database="project2",
                 password=password_database # A fake password :|>
             )
-            custname = customername.get()
+            custname = customername.get().strip()
             vehicleno = vehicle_number.get()
             returndate = return_date_rental.get()
             cursor = mydb.cursor()
-            sql = "SELECT RENTAL.CustID, RENTAL.VehicleID, RENTAL.StartDate, RENTAL.RentalType, RENTAL.Qty, RENTAL.TotalAmount, RENTAL.PaymentDate FROM RENTAL,CUSTOMER WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+ custname+"'AND RENTAL.VechicleID ='"+vehicleno+"'AND RENTAL.ReturnDate='"+returndate+"';"
+            sql = "SELECT RENTAL.CustID, RENTAL.StartDate, RENTAL.RentalType, RENTAL.Qty, RENTAL.TotalAmount, RENTAL.PaymentDate FROM RENTAL,CUSTOMER WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+custname+"'AND RENTAL.VechicleID ='"+vehicleno+"'AND RENTAL.ReturnDate='"+returndate+"';"
+            print(sql)
             cursor.execute(sql) 
             results = cursor.fetchall()
             print(results)
-            
+            data = ''
+            for i in results:
+                data += str(a[0])+"\t"+str(a[1])+"\t" +str(a[2])+"\t"+str(a[3])+"\t"+str(a[4])+\
+                    "\t"+str(a[5])+"\t"+str(a[6])
+            result_obtained_findrental = tk.Label(newwin,text=data)
+            result_obtained_findrental.grid(row=0,column=1)
+            def destroyRetrive():
+                retrive_a_car_window_find_rental.destroy() # Destroys the view 
+            cancel_button_retrieve = tk.Button(retrive_a_car_window_find_rental,
+                text="Cancel",
+                width=20,
+                command = destroyRetrive
+            )
+            cancel_button_retrieve.grid(row=1,column=0)
         
         sumbit_info_button = tk.Button(retrive_a_car_window,
             text="Sumbit",
