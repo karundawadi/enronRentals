@@ -14,6 +14,7 @@ password_database = "Qwerty12345!" #change this to database password
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
+    database="project2",
     password=password_database # A fake password :|>
 )
 
@@ -182,12 +183,17 @@ def openPerformWindow():
             mydb = mysql.connector.connect(
                 host="localhost",
                 user="root",
+                database="project2",
                 password=password_database # A fake password :|>
             )
+            custname = customername.get()
+            vehicleno = vehicle_number.get()
+            returndate = return_date_rental.get()
             cursor = mydb.cursor()
-            sql = "SELECT CustID, VehicleID, StartDate, RentalType, Return as CurrentBalance FROM CUSTOMER, RENTAL WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+ name_provided+"'AND RENTAL.VechicleID ='"+id_provided+"'AND RENTAL.PaymentDate is NULL;"
+            sql = "SELECT RENTAL.CustID, RENTAL.VehicleID, RENTAL.StartDate, RENTAL.RentalType, RENTAL.Qty, RENTAL.TotalAmount, RENTAL.PaymentDate FROM RENTAL,CUSTOMER WHERE CUSTOMER.CustID = RENTAL.CustID AND CUSTOMER.Name ='"+ custname+"'AND RENTAL.VechicleID ='"+vehicleno+"'AND RENTAL.ReturnDate='"+returndate+"';"
             cursor.execute(sql) 
             results = cursor.fetchall()
+            print(results)
             
         
         sumbit_info_button = tk.Button(retrive_a_car_window,
