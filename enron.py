@@ -21,7 +21,7 @@ mydb = mysql.connector.connect(
 def get_data():
     newwin = tk.Toplevel(window)
     display = tk.Label(newwin, text="Print Data")
-    display.geometry("500x300")
+    newwin.geometry("500x300")
     con = mysql.connector.connect(host="localhost", user="root", password=password_database, database="project2")
     c = con.cursor()
 
@@ -30,17 +30,19 @@ def get_data():
         answer = c.fetchall()
         data = ''
         for a in answer:
-            data += "\n" + str(a[0]) + "\t" + str(a[1]) + "\t" + str(a[2]) + "\t" + str(a[3]) + "\t" + str(a[4]) + \
-                    "\t" + str(a[5]) + "\t" + str(a[6]) + "\t" + str(a[7]) + "\t" + str(a[8]) + "\t" \
-                    + str(a[9]) + "\t" + str(a[10]) + "\t" + ('$' + str("%.2f" % a[11])) + "\n"
-
+            data += "\n" + str(a[0]) + "\t" + str(a[1]) + "\t" + str(a[2]) + "\t" + str(a[3]) + "\t" + str(a[4]) + "\t" + str(a[5]) + "\t" + str(a[6]) + "\t" + str(a[7]) + "\t" + str(a[8]) + "\t" + str(a[9]) + "\t" + str(a[10]) + "\t" + ('$' + str("%.2f" % a[11])) 
+        newwin.geometry("1000x1000")
+        layout_t = "\n"+"OrderDate"+"\t"+"StartDate"+"\t" +"Return Date"+"\t"+"TotalDays"+"\t"+"VIN"+"\t"+"Vehicle"+"\t"+"Type"+"\t"+"Category"+"\t"+"CustomerID"+"\t"+"CustomerName"+"\t"+"OrderAmount"+"\t"+"RentalBalance"+"\n"
         # prints query output
+        resultw = tk.Label(newwin, text=layout_t)
+        resultw.grid(row=0, column=0, columnspan=2)
+        
         result = tk.Label(newwin, text=data)
-        result.grid(row=0, column=0, columnspan=2)
+        result.grid(row=1, column=0, columnspan=2)
 
         # destroy tbe current window
         cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
-        cancel_button.grid(row=3, column=1, columnspan=2)
+        cancel_button.grid(row=3, column=0, columnspan=2)
 
         con.commit()
         con.close()
@@ -64,12 +66,16 @@ def get_data():
 
         # if the input is valid
         else:
+            layout_t = "\n"+"CustID"+"\t"+"Name"+"\t" +"Balance Due"+"\n"
+            # prints query output
+            resultw = tk.Label(newwin, text=layout_t)
+            resultw.grid(row=0, column=0, columnspan=2)
             result = tk.Label(newwin, text=data)
-            result.grid(row=0, column=0, columnspan=1)
+            result.grid(row=1, column=0, columnspan=1)
 
         # destroy the current window
         cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
-        cancel_button.grid(row=3, column=1, columnspan=2)
+        cancel_button.grid(row=3, column=0, columnspan=2)
 
         con.commit()
         con.close()
@@ -94,12 +100,16 @@ def get_data():
 
         # if the input is valid
         else:
+            layout_t = "\n"+"CustID"+"\t"+"Name"+"\t" +"Balance Due"+"\n"
+            # prints query output
+            resultw = tk.Label(newwin, text=layout_t)
+            resultw.grid(row=0, column=0, columnspan=2)
             result = tk.Label(newwin, text=data)
-            result.grid(row=0, column=0, columnspan=1)
+            result.grid(row=1, column=0, columnspan=1)
 
         # destroy the current window
         cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
-        cancel_button.grid(row=3, column=1, columnspan=2)
+        cancel_button.grid(row=3, column=0, columnspan=2)
 
         con.commit()
         con.close()
@@ -125,12 +135,16 @@ def get_data():
 
         # if the input is valid
         else:
+            layout_t = "\n"+"CustID"+"\t"+"Name"+"\t" +"Balance Due"+"\n"
+            # prints query output
+            resultw = tk.Label(newwin, text=layout_t)
+            resultw.grid(row=0, column=0, columnspan=2)
             result = tk.Label(newwin, text=data)
-            result.grid(row=0, column=0, columnspan=1)
+            result.grid(row=1, column=0, columnspan=1)
 
         # destroy the current window
         cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
-        cancel_button.grid(row=3, column=1, columnspan=2)
+        cancel_button.grid(row=3, column=0, columnspan=2)
 
         con.commit()
         con.close()
@@ -204,7 +218,6 @@ def insertVehicle():
 
         con.close()
 
-
 def openCustomer():
     newwin = tk.Toplevel(window)
     newwin.geometry("500x300")
@@ -222,7 +235,6 @@ def openCustomer():
 
     insert = tk.Button(newwin, text="Insert", command=insertCustomer)
     insert.place(x=20, y=100)
-
 
 def openVehicle():
     newwin = tk.Toplevel(window)
@@ -257,7 +269,6 @@ def openVehicle():
 
     insert = tk.Button(newwin, text="Insert", command=insertVehicle)
     insert.place(x=20, y=180)
-
 
 def openAddWindow():
     newwin = tk.Toplevel(window)
@@ -512,7 +523,7 @@ def openPerformWindow():
     retrive_a_rental_button.grid(row=0, column=0, columnspan =2, padx=180 , pady = 25)
     return_a_car_button.grid(row=1, column=0, columnspan =2, padx=180 , pady = 25)
     cancel_button.grid(row=2, column=0, columnspan =2, padx=180 , pady = 25)
-    
+
 # Buttons
 add = tk.Button(
     text="Add",
