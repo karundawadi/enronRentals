@@ -198,19 +198,21 @@ def openPerformWindow():
             results = cursor.fetchall()
             print(results)
             data = ''
-            for i in results:
-                data += str(a[0])+"\t"+str(a[1])+"\t" +str(a[2])+"\t"+str(a[3])+"\t"+str(a[4])+\
-                    "\t"+str(a[5])+"\t"+str(a[6])
-            result_obtained_findrental = tk.Label(newwin,text=data)
-            result_obtained_findrental.grid(row=0,column=1)
+            for a in results:
+                data += "\n"+str(a[0])+"\t"+str(a[1])+"\t" +str(a[2])+"\t"+str(a[3])+"\t"+str(a[4])+"\t"+str(a[5])
+            layout_t = "\n"+"CustID"+"\t"+"StartDate"+"\t" +"Rental Type"+"\t"+"Qty"+"\t"+"Total Amount"+"\t"+"Payment Date"
+            result_obtained_findrental = tk.Label(retrive_a_car_window_find_rental,text=data)
+            layout_text =  tk.Label(retrive_a_car_window_find_rental,text=layout_t)
             def destroyRetrive():
                 retrive_a_car_window_find_rental.destroy() # Destroys the view 
             cancel_button_retrieve = tk.Button(retrive_a_car_window_find_rental,
-                text="Cancel",
+                text="Return",
                 width=20,
                 command = destroyRetrive
             )
-            cancel_button_retrieve.grid(row=1,column=0)
+            layout_text.grid(row=0,column=0)
+            result_obtained_findrental.grid(row=1,column=0)
+            cancel_button_retrieve.grid(row=2,column=0)
             cursor.close()
         
         sumbit_info_button = tk.Button(retrive_a_car_window,
