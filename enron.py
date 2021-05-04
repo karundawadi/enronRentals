@@ -25,7 +25,7 @@ def get_vehicle():
     c = con.cursor()
 
     if len(veh_id.get()) == 0 and len(vehicle_description.get()) == 0:
-        c.execute('SELECT vRentalInfo.VIN, vRentalInfo.Vehicle, RATE.Daily  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN ;')
+        c.execute("SELECT vRentalInfo.VIN, vRentalInfo.Vehicle, CONCAT('$', CAST(RATE.Daily AS DECIMAL(10,2)))  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN ;")
         answer = c.fetchall()
         data = ''
         for a in answer:
@@ -49,7 +49,7 @@ def get_vehicle():
 
 
     elif len(veh_id.get())!= 0 and len(vehicle_description.get()) == 0:
-        c.execute("SELECT DISTINCT vRentalInfo.VIN, vRentalInfo.Vehicle, RATE.Daily  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN AND vRentalInfo.VIN = '"+veh_id.get()+"';")
+        c.execute("SELECT DISTINCT vRentalInfo.VIN, vRentalInfo.Vehicle, CAST(RATE.Daily AS DECIMAL(10,2))) from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN AND vRentalInfo.VIN = '"+veh_id.get()+"';")
         answer = c.fetchall()
         data = ''
         for a in answer:
@@ -81,7 +81,7 @@ def get_vehicle():
 
 
     elif len(veh_id.get()) == 0 and len(vehicle_description.get()) != 0:
-        c.execute("SELECT DISTINCT vRentalInfo.VIN, vRentalInfo.Vehicle, RATE.Daily  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN AND vRentalInfo.Vehicle LIKE '"+('%' + vehicle_description.get() + '%') + "';")
+        c.execute("SELECT DISTINCT vRentalInfo.VIN, vRentalInfo.Vehicle, CAST(RATE.Daily AS DECIMAL(10,2)))  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN AND vRentalInfo.Vehicle LIKE '"+('%' + vehicle_description.get() + '%') + "';")
         answer = c.fetchall()
         print(answer)
         data = ''
@@ -113,7 +113,7 @@ def get_vehicle():
 
 
     elif len(veh_id.get()) != 0 and len(vehicle_description.get()) != 0:
-        c.execute("SELECT DISTINCT vRentalInfo.VIN, vRentalInfo.Vehicle, RATE.Daily  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN AND vRentalInfo.Vehicle='"+vehicle_description.get()+"' AND vRentalInfo.VIN = '"+veh_id.get()+"';")
+        c.execute("SELECT DISTINCT vRentalInfo.VIN, vRentalInfo.Vehicle, CAST(RATE.Daily AS DECIMAL(10,2)))  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN AND vRentalInfo.Vehicle='"+vehicle_description.get()+"' AND vRentalInfo.VIN = '"+veh_id.get()+"';")
         answer = c.fetchall()
         print(answer)
         data = ''
