@@ -4,7 +4,6 @@ from datetime import date
 import mysql.connector
 import re
 
-
 window = tk.Tk() # Window is the main tkinter 
 window.title("Enron Rental System")
 window.geometry("500x300") # Setting the size of the application window 
@@ -483,8 +482,6 @@ def openDisplayWindow():
     cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
     cancel_button.grid(row=3, column=1, columnspan=1,padx=180 , pady = 25)
     
- 
-
 def openPerformWindow():
     newwin = tk.Toplevel(window)
     newwin.geometry("500x300") # Sets the size of window to 500 by 300 
