@@ -19,7 +19,137 @@ mydb = mysql.connector.connect(
 )
 
 def get_vehicle():
-    print("Hello");
+    newwin = tk.Toplevel(window)
+    display = tk.Label(newwin, text="Print Data")
+    newwin.geometry("500x300")
+    con = mysql.connector.connect(host="localhost", user="root", password=password_database, database="project2")
+    c = con.cursor()
+
+    if len(veh_id.get()) == 0 and len(vehicle_description.get()) == 0:
+        c.execute('SELECT vRentalInfo.VIN, vRentalInfo.Vehicle, RATE.Daily  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN ;')
+        answer = c.fetchall()
+        data = ''
+        for a in answer:
+            data += "\n" + " ".join(str(a[0]).split()) + "\t" + " ".join(str(a[1]).split()) + "\t" + " ".join(str(a[2]).split())  
+        newwin.geometry("1000x1000")
+        layout_t = "\n"+"VIN"+"\t"+"Vehicle"+"\t" +"Daily Rate"+"\n"
+        # prints query output
+        resultw = tk.Label(newwin, text=layout_t)
+        resultw.grid(row=0, column=0, columnspan=2)
+        
+        result = tk.Label(newwin, text=data)
+        result.grid(row=1, column=0, columnspan=2)
+
+        # destroy tbe current window
+        cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
+        cancel_button.grid(row=3, column=0, columnspan=2)
+
+        con.commit()
+        con.close()
+
+
+    elif len(veh_id.get())!= 0 and len(vehicle_description.get()) == 0:
+        c.execute('SELECT vRentalInfo.VIN, vRentalInfo.Vehicle, RATE.Daily  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN ;')
+        answer = c.fetchall()
+        data = ''
+        for a in answer:
+            data += "\n" + " ".join(str(a[0]).split()) + "\t" + " ".join(str(a[1]).split()) + "\t" + " ".join(str(a[2]).split())  
+        
+        # if the input is invalid
+        if len(data) == 0:
+            message = "Invalid input. Please try again "
+
+            # print the query answer
+            result = tk.Label(newwin, text=message)
+            result.grid(row=0, column=0, columnspan=2)
+
+        # if the input is valid
+        else:
+            layout_t = "\n"+"VIN"+"\t"+"Vehicle"+"\t" +"Daily Rate"+"\n"
+            # prints query output
+            resultw = tk.Label(newwin, text=layout_t)
+            resultw.grid(row=0, column=0, columnspan=2)
+            result = tk.Label(newwin, text=data)
+            result.grid(row=1, column=0, columnspan=1)
+
+        # destroy the current window
+        cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
+        cancel_button.grid(row=3, column=0, columnspan=2)
+
+        con.commit()
+        con.close()
+
+
+    elif len(veh_id.get()) == 0 and len(vehicle_description.get()) != 0:
+        c.execute( 'SELECT vRentalInfo.VIN, vRentalInfo.Vehicle, RATE.Daily  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN ;')
+
+        answer = c.fetchall()
+        print(answer)
+        data = ''
+        for a in answer:
+            data += "\n" + str(a[0]) + "\t" + str(a[1]) + "\t" + str(a[2]) + "\n"
+
+        if len(data) == 0:
+            message = "Invalid input. Please try again "
+
+            # print the query answer
+            result = tk.Label(newwin, text=message)
+            result.grid(row=0, column=0, columnspan=2)
+
+        # if the input is valid
+        else:
+            layout_t = "\n"+"VIN"+"\t"+"Vehicle"+"\t" +"Daily Rate"+"\n"
+            # prints query output
+            resultw = tk.Label(newwin, text=layout_t)
+            resultw.grid(row=0, column=0, columnspan=2)
+            result = tk.Label(newwin, text=data)
+            result.grid(row=1, column=0, columnspan=1)
+
+        # destroy the current window
+        cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
+        cancel_button.grid(row=3, column=0, columnspan=2)
+
+        con.commit()
+        con.close()
+
+
+    elif len(veh_id.get()) != 0 and len(vehicle_description.get()) != 0:
+        c.execute('SELECT vRentalInfo.VIN, vRentalInfo.Vehicle, RATE.Daily  from vRentalInfo, VEHICLE, RATE WHERE RATE.Type = VEHICLE.Type AND RATE.Category = VEHICLE.Category AND VEHICLE.VechicleID = vRentalInfo.VIN ;')
+        answer = c.fetchall()
+        print(answer)
+        data = ''
+        for a in answer:
+            data += "\n" + str(a[0]) + "\t" + str(a[1]) + "\t" + str(a[2]) + "\n"
+
+        # if the input is invalid
+        if len(data)==0:
+            message = "Invalid input. Please try again "
+
+            # print the query answer
+            result = tk.Label(newwin, text=message)
+            result.grid(row=0, column=0, columnspan=2)
+
+        # if the input is valid
+        else:
+            layout_t = "\n"+"VIN"+"\t"+"Vehicle"+"\t" +"Daily Rate"+"\n"
+            # prints query output
+            resultw = tk.Label(newwin, text=layout_t)
+            resultw.grid(row=0, column=0, columnspan=2)
+            result = tk.Label(newwin, text=data)
+            result.grid(row=1, column=0, columnspan=1)
+
+        # destroy the current window
+        cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
+        cancel_button.grid(row=3, column=0, columnspan=2)
+
+        con.commit()
+        con.close()
+
+        # clear the input boxes NOT WORKING
+        # cust_id.delete(1.0, END)
+        # cust_name.delete(1.0, END)
+
+    # display.pack()
 
 def get_data():
     newwin = tk.Toplevel(window)
@@ -326,11 +456,11 @@ def openDisplayWindow():
         global veh_id
         global vehicle_description
 
-        cust_id = tk.Entry(newwin, width=30)
-        cust_id.grid(row=0, column=1)
+        veh_id = tk.Entry(newwin, width=30)
+        veh_id.grid(row=0, column=1)
 
-        cust_name = tk.Entry(newwin, width=30)
-        cust_name.grid(row=1, column=1)
+        vehicle_description = tk.Entry(newwin, width=30)
+        vehicle_description.grid(row=1, column=1)
 
         cust_id_label = tk.Label(newwin, text="VIN")
         cust_id_label.grid(row=0, column=0)
