@@ -182,7 +182,7 @@ def get_data():
 
 
     elif len(cust_id.get())!= 0 and len(cust_name.get()) == 0:
-        c.execute("SELECT DISTINCT CusomterID ,CustomerName,CONCAT('$',CAST(RentalBalance AS DECIMAL(10,2))) FROM "
+        c.execute("SELECT CusomterID ,CustomerName,CONCAT('$',CAST(RentalBalance AS DECIMAL(10,2))) FROM "
         "vRentalInfo WHERE CusomterID ='" + (cust_id.get()) + "';")
         answer = c.fetchall()
         data = ''
@@ -215,7 +215,7 @@ def get_data():
 
 
     elif len(cust_id.get()) == 0 and len(cust_name.get()) != 0:
-        c.execute( "SELECT DISTINCT CusomterID, CustomerName, CONCAT('$', CAST(RentalBalance AS DECIMAL(10,2))) FROM "
+        c.execute( "SELECT CusomterID, CustomerName, CONCAT('$', CAST(RentalBalance AS DECIMAL(10,2))) FROM "
         "vRentalInfo WHERE CustomerName LIKE '" + ('%'+cust_name.get()+'%') + "';")
 
         answer = c.fetchall()
@@ -249,7 +249,7 @@ def get_data():
 
 
     elif len(cust_id.get()) != 0 and len(cust_name.get()) != 0:
-        c.execute("SELECT DISTINCT CusomterID, CustomerName, CONCAT('$', CAST(RentalBalance AS DECIMAL(10,2))) FROM "
+        c.execute("SELECT CusomterID, CustomerName, CONCAT('$', CAST(RentalBalance AS DECIMAL(10,2))) FROM "
         "vRentalInfo WHERE CustomerName LIKE '" +('%'+ cust_name.get()+'%') + "'AND CusomterID ='" +
         (cust_id.get()) + "';")
         answer = c.fetchall()
@@ -483,7 +483,7 @@ def openDisplayWindow():
     cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
     cancel_button.grid(row=3, column=1, columnspan=1,padx=180 , pady = 25)
     
-    
+ 
 
 def openPerformWindow():
     newwin = tk.Toplevel(window)
