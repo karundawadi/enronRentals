@@ -6,7 +6,7 @@ import re
 
 
 window = tk.Tk() # Window is the main tkinter 
-window.title("Enrol Rental System")
+window.title("Enron Rental System")
 window.geometry("500x300") # Setting the size of the application window 
 password_database = "Qwerty12345!" #change this to database password 
 
@@ -18,6 +18,9 @@ mydb = mysql.connector.connect(
     password=password_database # A fake password :|>
 )
 
+def get_vehicle():
+    print("Hello");
+
 def get_data():
     newwin = tk.Toplevel(window)
     display = tk.Label(newwin, text="Print Data")
@@ -26,7 +29,7 @@ def get_data():
     c = con.cursor()
 
     if len(cust_id.get()) == 0 and len(cust_name.get()) == 0:
-        c.execute('SELECT * FROM vRentalInfo ORDER BY vRentalInfo.BalanceDue')
+        c.execute('SELECT * FROM vRentalInfo ORDER BY vRentalInfo.RentalBalance')
         answer = c.fetchall()
         data = ''
         for a in answer:
@@ -49,7 +52,7 @@ def get_data():
 
 
     elif len(cust_id.get())!= 0 and len(cust_name.get()) == 0:
-        c.execute("SELECT DISTINCT CusomterID ,CustomerName,CONCAT('$',CAST(BalanceDue AS DECIMAL(10,2))) FROM "
+        c.execute("SELECT DISTINCT CusomterID ,CustomerName,CONCAT('$',CAST(RentalBalance AS DECIMAL(10,2))) FROM "
         "vRentalInfo WHERE CusomterID ='" + (cust_id.get()) + "';")
         answer = c.fetchall()
         data = ''
@@ -82,7 +85,7 @@ def get_data():
 
 
     elif len(cust_id.get()) == 0 and len(cust_name.get()) != 0:
-        c.execute( "SELECT DISTINCT CusomterID, CustomerName, CONCAT('$', CAST(BalanceDue AS DECIMAL(10,2))) FROM "
+        c.execute( "SELECT DISTINCT CusomterID, CustomerName, CONCAT('$', CAST(RentalBalance AS DECIMAL(10,2))) FROM "
         "vRentalInfo WHERE CustomerName LIKE '" + ('%'+cust_name.get()+'%') + "';")
 
         answer = c.fetchall()
@@ -116,7 +119,7 @@ def get_data():
 
 
     elif len(cust_id.get()) != 0 and len(cust_name.get()) != 0:
-        c.execute("SELECT DISTINCT CusomterID, CustomerName, CONCAT('$', CAST(BalanceDue AS DECIMAL(10,2))) FROM "
+        c.execute("SELECT DISTINCT CusomterID, CustomerName, CONCAT('$', CAST(RentalBalance AS DECIMAL(10,2))) FROM "
         "vRentalInfo WHERE CustomerName LIKE '" +('%'+ cust_name.get()+'%') + "'AND CusomterID ='" +
         (cust_id.get()) + "';")
         answer = c.fetchall()
@@ -289,28 +292,68 @@ def openAddWindow():
 
 def openDisplayWindow():
     newwin = tk.Toplevel(window)
-    display = tk.Label(newwin, text="Enter values below")
+    newwin.geometry("500x300") # Sets the size of window to 500 by 300 
+    
+    def open_customer():
+        newwin = tk.Toplevel(window)
+        display = tk.Label(newwin, text="Enter values below")
 
-    global cust_id
-    global cust_name
+        global cust_id
+        global cust_name
 
-    cust_id = tk.Entry(newwin, width=30)
-    cust_id.grid(row=0, column=1)
+        cust_id = tk.Entry(newwin, width=30)
+        cust_id.grid(row=0, column=1)
 
-    cust_name = tk.Entry(newwin, width=30)
-    cust_name.grid(row=1, column=1)
+        cust_name = tk.Entry(newwin, width=30)
+        cust_name.grid(row=1, column=1)
 
-    cust_id_label = tk.Label(newwin, text="CustID")
-    cust_id_label.grid(row=0, column=0)
+        cust_id_label = tk.Label(newwin, text="CustID")
+        cust_id_label.grid(row=0, column=0)
 
-    cust_name_label = tk.Label(newwin, text="Name")
-    cust_name_label.grid(row=1, column=0)
+        cust_name_label = tk.Label(newwin, text="Name")
+        cust_name_label.grid(row=1, column=0)
 
-    submit_button = tk.Button(newwin, text="Submit", command=get_data)
-    submit_button.grid(row=3, column=1, columnspan=1)
+        submit_button = tk.Button(newwin, text="Submit", command=get_data)
+        submit_button.grid(row=3, column=1, columnspan=1)
+
+        cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
+        cancel_button.grid(row=4, column=1, columnspan=1)
+    
+    def open_vehicle():
+        newwin = tk.Toplevel(window)
+        display = tk.Label(newwin, text="Enter values below")
+
+        global veh_id
+        global vehicle_description
+
+        cust_id = tk.Entry(newwin, width=30)
+        cust_id.grid(row=0, column=1)
+
+        cust_name = tk.Entry(newwin, width=30)
+        cust_name.grid(row=1, column=1)
+
+        cust_id_label = tk.Label(newwin, text="VIN")
+        cust_id_label.grid(row=0, column=0)
+
+        cust_name_label = tk.Label(newwin, text="Vehicle Description")
+        cust_name_label.grid(row=1, column=0)
+
+        submit_button = tk.Button(newwin, text="Submit", command=get_vehicle)
+        submit_button.grid(row=3, column=1, columnspan=1)
+
+        cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
+        cancel_button.grid(row=4, column=1, columnspan=1)
+    
+    customer_button = tk.Button(newwin, text="Customer", command=open_customer)
+    customer_button.grid(row=1, column=1, columnspan=1,padx=180 , pady = 25)
+    
+    vehicle_button = tk.Button(newwin, text="Vehicle", command=open_vehicle)
+    vehicle_button.grid(row=2, column=1, columnspan=1,padx=180 , pady = 25)
 
     cancel_button = tk.Button(newwin, text="Cancel", command=newwin.destroy)
-    cancel_button.grid(row=4, column=1, columnspan=1)
+    cancel_button.grid(row=3, column=1, columnspan=1,padx=180 , pady = 25)
+    
+    
 
 def openPerformWindow():
     newwin = tk.Toplevel(window)
