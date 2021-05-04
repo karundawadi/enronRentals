@@ -3,10 +3,10 @@
 Enron rental system is a GUI application that is created using Tkinter. It manages a fictional company called Enron Rentals. Inside the application, an end-user will be able to make changes to the database; they will be able to add new users, update the existing records, and perform various other tasks. 
 
 ## Authors
-[Dawadi, Karun](https://github.com/karundawadi)
-[Fabbro, Robert](https://github.com/peppernaut)
-[Gonzalez, Paola](https://github.com/peppernaut)
-[Rana, Prajwal](https://github.com/PrajRana)
+*[Dawadi, Karun](https://github.com/karundawadi)
+*[Fabbro, Robert](https://github.com/peppernaut)
+*[Gonzalez, Paola](https://github.com/peppernaut)
+*[Rana, Prajwal](https://github.com/PrajRana)
 
 ## Installation
 
