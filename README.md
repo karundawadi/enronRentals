@@ -50,7 +50,7 @@ CustID AS 'CusomterID',
 Name AS 'CustomerName', 
 TotalAmount AS 'OrderAmount', 
 (CASE WHEN PaymentDate IS NULL THEN TotalAmount ELSE 0
-END) AS 'BalanceDue'
+END) AS 'RentalBalance'
 FROM Rental
 NATURAL JOIN Customer
 NATURAL JOIN Vehicle
