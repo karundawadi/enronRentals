@@ -622,7 +622,7 @@ def openPerformWindow():
                     today = date.today()
                     d4 = today.strftime("%Y-%m-%d") # Converting to format required 
                     print("d4 =", d4)
-                    sql = "UPDATE RENTAL SET RENTAL.PaymentDate ='"+d4+"' WHERE RENTAL.VechicleID ='"+id_provided+"' AND RENTAl.CustID ='"+str(cust_id_found)+"';"
+                    sql = "UPDATE RENTAL SET RENTAL.TotalAmount = 0, RENTAL.PaymentDate ='"+d4+"' WHERE RENTAL.VechicleID ='"+id_provided+"' AND RENTAl.CustID ='"+str(cust_id_found)+"';"
                     print(sql) # To verify is complete or not 
                     cursor.execute(sql) 
                     cursor.close()
